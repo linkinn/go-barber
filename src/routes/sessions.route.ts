@@ -8,12 +8,15 @@ sessioinsRouter.post('/', async (request, response) => {
     const { email, password } = request.body
     const authentication = new AuthenticationUserService()
 
-    const {user} = await authentication.execute({
+    const {user, token} = await authentication.execute({
       email,
       password
     })
 
-    return response.json({user})
+    // @ts-expect-error
+    delete user.password
+
+    return response.json({user, token})
   } catch (error) {
     return response.status(400).json({message: error.message})
   }
