@@ -2,12 +2,12 @@ import 'reflect-metadata'
 
 import express, { NextFunction, Request, Response } from 'express'
 import 'express-async-errors'
+
+import updateConfig from '@config/upload'
+import AppError from '@shared/erros/AppError'
 import routes from './routes'
 
-import updateConfig from './config/upload'
-
-import './database'
-import AppError from './erros/AppError'
+import '@shared/infra/typeorm'
 
 const app = express()
 
@@ -29,10 +29,6 @@ app.use((err: Error, request: Request, response: Response, _: NextFunction) => {
     status: 'error',
     message: 'Internal server error'
   })
-})
-
-app.get('/', (request, response) => {
-  return response.json({ msg: 'hello world' })
 })
 
 app.listen(3333, () => {
